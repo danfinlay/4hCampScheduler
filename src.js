@@ -4,8 +4,13 @@ function readyFunction(){
 		console.log("Generate pressed.");
 		$('body').text("Generate pressed.");
 
-		var tribes = [1,2,3,4,5,6,7,8,9,10];
-
+		var tribes = ["Tribe A","Tribe B",
+			"Tribe C", "Tribe D", "Tribe E",
+			"Tribe F", "Tribe G", "Tribe H",
+			"Tribe I", "Tribe J"];
+		var workshops = [1,2,3,4,5];
+		var days = ["monday","tuesday","wednesday","thursday","friday"];
+		var chores = ["breakfastKP", "lunchKP", "dinnerKP", "johnDuty"];
 
 		var criteria1 = function(schedule){
 			return true;
@@ -25,7 +30,17 @@ function readyFunction(){
 		}
 
 		function generateSchedule(tribes){
-
+			var schedule = {};
+			for (day in days){
+				schedule[day]={};
+			}
+			for (day in schedule){
+				for (chore in chores){
+					//I have no idea how you'll systematically
+					//generate this many variables.  I look
+					//Forward to seeing it done nicely :)
+				}
+			}
 			//Generate schedule, run it through checkCriteria.
 			//If checkCriteria returns true, then that schedule
 			//meets all criteria functions.			
