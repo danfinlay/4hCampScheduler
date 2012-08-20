@@ -17,7 +17,7 @@ function readyFunction(){
 
 		function checkCriteria(schedule){
 			for (var i=0; i < criteriaToMeet.length; i++){
-				if (criteriaToMeet[i]==false){
+				if (criteriaToMeet[i]()==false){
 					return false;
 				}
 				return true;
