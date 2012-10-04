@@ -30,11 +30,18 @@ function readyFunction(){
 		}
 
 		var sampleDaySchedule = [
-			{name:"monday",
+			{name:"wednesday",
 			kp:["Tribe A", "Tribe F"],
 			johnDuty:["Tribe B", "Tribe C"],
 			campFire:["Tribe D", "Tribe E"],
 			workshops:[{
+				1:["Tribe J", "Tribe I"],
+				2:["Tribe C", "Tribe A"],
+				3:["Tribe B", "Tribe F"],
+				4:["Tribe D", "Tribe J"],
+				5:["Tribe E", "Tribe G"]
+			},
+			{
 				1:["Tribe J", "Tribe I"],
 				2:["Tribe C", "Tribe A"],
 				3:["Tribe B", "Tribe F"],
