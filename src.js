@@ -5,6 +5,7 @@
 
 console.log("Generation Began.");
 
+var totalScheduleCount = 0;
 var tribes = ["Tribe A","Tribe B",
 	"Tribe C", "Tribe D", "Tribe E",
 	"Tribe F", "Tribe G", "Tribe H",
@@ -62,7 +63,9 @@ var eachTribeTakesEachWorkshopOnce= function(testSchedule){
 	tribes.forEach(function(tribe){
 		workshops.forEach(function(workshop){
 			if(!workshopChecklist[workshop][tribe]){
+				if (totalScheduleCount % 10000 === 0) {
 					//console.log("Rejecting schedule for tribes not having all workshops:\n"+JSON.stringify(testSchedule));
+				}
 				return false;
 			}
 		});
@@ -74,7 +77,10 @@ function noTribeHasJohnDutyAndCampfireOnTheSameDay(testSchedule){
 	testSchedule.forEach(function(day){
 		day.johnDuty.forEach(function(johnTribe){
 			if($.inArray(johnTribe, day.campFire)){
+				if (totalScheduleCount % 10000 === 0) {
 					//console.log("Rejecting schedule for tribe having John Duty and Campfire on the same day :\n"+JSON.stringify(testSchedule));
+				}
+				
 				return false;
 			}
 		});
@@ -91,7 +97,7 @@ function noTribeHasKPAndFunInTheForestOnTheSameDay(testSchedule){
 			day.workshops.forEach(function(workshopSession){
 				if($.inArray(kpTribe, workshopSession[0])){
 					if (printCount === 0) {
-						console.log("Rejecting schedule for tribe having KP and Fun in the Forest on the Same Day:\n"+JSON.stringify(testSchedule));
+						//console.log("Rejecting schedule for tribe having KP and Fun in the Forest on the Same Day:\n"+JSON.stringify(testSchedule));
 						printCount = 1;
 					}
 					return false;
@@ -107,6 +113,10 @@ function noTribeHasKPAndJohnDutyOnTheSameDay(testSchedule){
 		var kpDay = "";
 		testSchedule.forEach(function(day){
 			if($.inArray(tribe, day.kp) && $.inArray(tribe, day.johnDuty)){
+				if (totalScheduleCount % 10000 === 0) {
+					//console.log("Rejecting schedule for tribe having KP and John Duty on the Same Day:\n"+JSON.stringify(testSchedule));
+				}
+				
 				return false;
 			}
 		});
@@ -177,7 +187,6 @@ var schedule=[
 
 function generateSchedules(){
 	var goodScheduleCount = 0;
-	var totalScheduleCount = 0;
 	console.log("Generating schedules from template: "+JSON.stringify(schedule));
 	var schedules = [];
 
@@ -229,17 +238,19 @@ function generateSchedules(){
 			}
 		});
 		//Add campfire.  No campfire on Wednesday.
-		for (var cfAdder = 0; cfAdder < 6; cfAdder++){
-			var day = schedule[cfAdder];
-			if (day.name !== "wednesday"){
-				day.campfire.push(currentWorkshop[cfAdder]);
+		for (var cfAdder = 1; cfAdder < 6; cfAdder++){
+			schedule[cfAdder].campfire = [];
+			if (schedule[cfAdder].name !== "wednesday"){
+				currentWorkshop[cfAdder].forEach(function(cfTribe){
+					schedule[cfAdder].campfire.push(cfTribe);
+				});
 			}
 		}
 
 		console.log("Trying out a fresh workshop schedule.");
 
-		//Go through all KP permutations:
-		for (var kpPermNumber = 0; kpPermNumber<singleChorePermutations.length;kpPermNumber++){
+		//Go through KP permutations:
+		for (var kpPermNumber = Math.floor(Math.random()*singleChorePermutations.length); kpPermNumber<singleChorePermutations.length;kpPermNumber=Math.floor(Math.random()*singleChorePermutations.length)){
 			console.log("Seeking acceptable KP Permutation...");
 			var kpWorks = false;
 			while(!kpWorks){
@@ -262,7 +273,7 @@ function generateSchedules(){
 				}
 				if (noTribeHasKPAndFunInTheForestOnTheSameDay) {
 					kpWorks = true;
-					console.log("Found a working KP arrangement!  Took "+kpPermNumber+" tries.");
+					console.log("Found a working KP arrangement!");
 				}else{
 					kPermNumber+=1;
 					if (kpPermNumber % 10000 === 0){
@@ -277,7 +288,7 @@ function generateSchedules(){
 			
 			//Next we'll go through all John Duty permutations:
 			for(var jdPermNumber = 0; jdPermNumber<singleChorePermutations.length; jdPermNumber++){
-				console.log("Enumerating new john duty permutation.");
+				//console.log("Enumerating new john duty permutation.");
 				//Add this permutation to the current schedule, try it until it works, then move on.
 			
 				jdWorks=false;
@@ -286,7 +297,7 @@ function generateSchedules(){
 					schedule.forEach(function(day){
 						day.johnDuty=[];
 					});
-					console.log("Applying and testing JD...");
+					//console.log("Applying and testing JD...");
 					var jdPermutation = singleChorePermutations[jdPermNumber];
 					var jdNumber = 0;
 					for (var b = 0; b < days.length; b++){
@@ -300,7 +311,7 @@ function generateSchedules(){
 					}
 					if (noTribeHasKPAndJohnDutyOnTheSameDay(schedule) && noTribeHasJohnDutyAndCampfireOnTheSameDay(schedule)) {
 						jdWorks = true;
-						console.log("Found a working John Duty arrangement!  Took "+jdPermNumber+" tries.");
+						//console.log("Found a working John Duty arrangement!  Took "+jdPermNumber+" tries.");
 					}else{
 						console.log("JD failed on try "+jdPermNumber);
 						jdPermNumber+=1;
