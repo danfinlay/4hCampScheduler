@@ -68,7 +68,18 @@ function readyFunction(){
 			return true;
 		}
 
-		var criteriaToMeet = [eachTribeTakesEachWorkshopOnce, twoTribesDoNotMeetTwice];
+		function noTribeHasJohnDutyAndCampfireOnTheSameDay(testSchedule){
+			testSchedule.forEach(day){
+				day.johnDuty.forEach(johnTribe){
+					if($.inArray(johnTribe, day.campFire)){
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
+		var criteriaToMeet = [eachTribeTakesEachWorkshopOnce, twoTribesDoNotMeetTwice, noTribeHasJohnDutyAndCampfireOnTheSameDay];
 
 		function checkCriteria(testSchedule){
 			criteriaToMeet.forEach(criteria){
