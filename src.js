@@ -118,7 +118,7 @@ var criteriaToMeet = [
 //eachTribeTakesEachWorkshopOnce, //Commented out for the "lazy" and less-brute workshop generation method I'm currently using.
 
 noTribeHasJohnDutyAndCampfireOnTheSameDay,
-noTribeHasKPAndJohnDutyOnTheSameDay,
+//noTribeHasKPAndJohnDutyOnTheSameDay,
 noTribeHasKPAndFunInTheForestOnTheSameDay,
 twoTribesDoNotMeetTwice];
 
@@ -198,11 +198,11 @@ function generateSchedules(){
 
 	function nextWorkshop(aWorkshop){
 		var bWorkshop = {
-			1:[aWorkshop[1][0], aWorkshop[2][1]],
-			2:[aWorkshop[2][0], aWorkshop[3][1]],
-			3:[aWorkshop[3][0], aWorkshop[4][1]],
-			4:[aWorkshop[4][0], aWorkshop[5][1]],
-			5:[aWorkshop[5][0], aWorkshop[1][1]]
+			1:[aWorkshop[1][1], aWorkshop[2][1]],
+			2:[aWorkshop[1][0], aWorkshop[3][1]],
+			3:[aWorkshop[2][0], aWorkshop[4][1]],
+			4:[aWorkshop[3][0], aWorkshop[5][1]],
+			5:[aWorkshop[4][0], aWorkshop[5][0]]
 		};
 		return bWorkshop;
 	}
@@ -228,6 +228,14 @@ function generateSchedules(){
 				currentWorkshop = nextWorkshop(currentWorkshop);
 			}
 		});
+		//Add campfire.  No campfire on Wednesday.
+		for (var cfAdder = 0; cfAdder < 6; cfAdder++){
+			var day = schedule[cfAdder];
+			if (day.name !== "wednesday"){
+				day.campfire.push(currentWorkshop[cfAdder]);
+			}
+		}
+
 		console.log("Trying out a workshop schedule.");
 
 		//Go through all KP permutations:
@@ -268,7 +276,7 @@ function generateSchedules(){
 			//Add this permutation to the current schedule;
 			
 			//Next we'll go through all John Duty permutations:
-			for(var jdPermNumber = 0; jdPermNumber<singleChorePermutations.length; jdPermNumber=Math.floor(Math.random()*singleChorePermutations.length){
+			for(var jdPermNumber = 0; jdPermNumber<singleChorePermutations.length; jdPermNumber=Math.floor(Math.random()*singleChorePermutations.length)){
 				console.log("Enumerating new john duty permutation.");
 				//Add this permutation to the current schedule, try it until it works, then move on.
 			
@@ -305,56 +313,18 @@ function generateSchedules(){
 					}
 				}
 
-				//Next we'll go through all Campfire permutations:
-				for(var cfPermNumber = 0; cfPermNumber < singleChorePermutations.length; cfPermNumber=Math.floor(Math.random()*singleChorePermutations.length){
-					console.log("Seeking a new campfire permutation...");
-					cfWorks = false;
-					while(!cfWorks){
-						//Clean the slate:
-						schedule.forEach(function(day){
-							day.campFire=[];
-						});
-						var cfPermutation = singleChorePermutations[cfPermNumber];
-						//console.log("Enumerating new campfire permutation.");
-						var cfNumber = 0;
-						//Add this permutation to the current schedule;
-						for (var i = 0; i < days.length; i++){
-							//Wednesday has no cf
-							if (days[i] !== "wednesday") {
-								schedule[i].campFire.push(cfPermutation[cfNumber]);
-								cfNumber+=1;
-								schedule[i].campFire.push(cfPermutation[cfNumber]);
-								cfNumber+=1;
-							}
-						}
-						if (noTribeHasJohnDutyAndCampfireOnTheSameDay(schedule)) {
-							cfWorks=true;
-							console.log("Found a working campfire arrangement!  Took "+cfPermNumber+" tries.");
-						}else{
-							cfPermNumber+=1;
-							if(cfPermNumber % 10000 === 0){
-								console.log("Tried " +cfPermNumber+" Campfire Permutations.");
-								if(cfPermNumber+1===singleChorePermutations.length){
-									break;
-								}
-							}
-						} 
+				//All workshops have been added to the schedule.  Time to evaluate it, and add it to the list if it's good.
+				totalScheduleCount += 1;
+				if (checkCriteria(schedule)) {
+					schedules.push(schedule);
+					goodScheduleCount += 1;
+					console.log("Good schedule found!: "+JSON.stringify(schedule)+" total is now: "+goodScheduleCount+" out of "+totalScheduleCount);
+					$('body').append("<h1>Schedule "+goodScheduleCount+" </h1>"+JSON.stringify(schedule)+"<br><br>");
+				}else{
+					if(totalScheduleCount % 1000000 === 0){
+						console.log("------Bad schedule "+goodScheduleCount+"/"+totalScheduleCount);
 					}
-
-				
-					//All workshops have been added to the schedule.  Time to evaluate it, and add it to the list if it's good.
-					totalScheduleCount += 1;
-					if (checkCriteria(schedule)) {
-						schedules.push(schedule);
-						goodScheduleCount += 1;
-						console.log("Good schedule found!: "+JSON.stringify(schedule)+" total is now: "+goodScheduleCount+" out of "+totalScheduleCount);
-						$('body').append("<h1>Schedule "+goodScheduleCount+" </h1>"+JSON.stringify(schedule)+"<br><br>");
-					}else{
-						if(totalScheduleCount % 1000000 === 0){
-							console.log("------Bad schedule "+goodScheduleCount+"/"+totalScheduleCount);
-						}
-					}
-				}
+				}	
 			}
 		}
 	});
