@@ -118,7 +118,7 @@ var criteriaToMeet = [
 //eachTribeTakesEachWorkshopOnce, //Commented out for the "lazy" and less-brute workshop generation method I'm currently using.
 
 noTribeHasJohnDutyAndCampfireOnTheSameDay,
-//noTribeHasKPAndJohnDutyOnTheSameDay,
+noTribeHasKPAndJohnDutyOnTheSameDay,
 noTribeHasKPAndFunInTheForestOnTheSameDay,
 twoTribesDoNotMeetTwice];
 
@@ -236,7 +236,7 @@ function generateSchedules(){
 			}
 		}
 
-		console.log("Trying out a workshop schedule.");
+		console.log("Trying out a fresh workshop schedule.");
 
 		//Go through all KP permutations:
 		for (var kpPermNumber = 0; kpPermNumber<singleChorePermutations.length;kpPermNumber++){
@@ -298,7 +298,7 @@ function generateSchedules(){
 							jdNumber+=1;
 						}
 					}
-					if (noTribeHasKPAndJohnDutyOnTheSameDay(schedule)) {
+					if (noTribeHasKPAndJohnDutyOnTheSameDay(schedule) && noTribeHasJohnDutyAndCampfireOnTheSameDay(schedule)) {
 						jdWorks = true;
 						console.log("Found a working John Duty arrangement!  Took "+jdPermNumber+" tries.");
 					}else{
@@ -307,7 +307,7 @@ function generateSchedules(){
 						if(jdPermNumber+1===singleChorePermutations.length){
 							break;
 						}
-						if(jdPermNumber % 10000 === 0){
+						if(jdPermNumber % 100000 === 0){
 							console.log("Tried "+jdPermNumber+" JD Permutations");
 						}
 					}
