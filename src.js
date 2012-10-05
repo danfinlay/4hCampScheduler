@@ -1,4 +1,8 @@
 
+//This app has a major dependency for its logging JSON,
+//A library by the great Douglas Crockford!
+//https://github.com/douglascrockford/JSON-js
+
 console.log("Generation Began.");
 
 var tribes = ["Tribe A","Tribe B",
