@@ -276,7 +276,7 @@ function generateSchedules(){
 			//Add this permutation to the current schedule;
 			
 			//Next we'll go through all John Duty permutations:
-			for(var jdPermNumber = 0; jdPermNumber<singleChorePermutations.length; jdPermNumber=Math.floor(Math.random()*singleChorePermutations.length)){
+			for(var jdPermNumber = 0; jdPermNumber<singleChorePermutations.length; jdPermNumber++){
 				console.log("Enumerating new john duty permutation.");
 				//Add this permutation to the current schedule, try it until it works, then move on.
 			
