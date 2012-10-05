@@ -79,7 +79,25 @@ function readyFunction(){
 			return true;
 		}
 
-		var criteriaToMeet = [eachTribeTakesEachWorkshopOnce, twoTribesDoNotMeetTwice, noTribeHasJohnDutyAndCampfireOnTheSameDay];
+		//For these purposes, Fun in the Forrest is Workshop Zero.
+		function noTribeHasKPAndFunInTheForestOnTheSameDay(testSchedule){
+			testSchedule.forEach(day){
+				day.kp.forEach(kpTribe){
+					day.workshops.forEach(workshopSession){
+						if($.inArray(kpTribe, workshopSession[0])){
+							return false;
+						}
+					}
+				}
+			}
+			return true;
+		}
+
+		var criteriaToMeet = [
+		eachTribeTakesEachWorkshopOnce, 
+		twoTribesDoNotMeetTwice, 
+		noTribeHasJohnDutyAndCampfireOnTheSameDay, 
+		noTribeHasKPAndFunInTheForestOnTheSameDay];
 
 		function checkCriteria(testSchedule){
 			criteriaToMeet.forEach(criteria){
