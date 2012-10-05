@@ -268,7 +268,7 @@ function generateSchedules(){
 			//Add this permutation to the current schedule;
 			
 			//Next we'll go through all John Duty permutations:
-			for(var jdPermNumber = 0; jdPermNumber<singleChorePermutations.length; jdPermNumber++){
+			for(var jdPermNumber = 0; jdPermNumber<singleChorePermutations.length; jdPermNumber=Math.floor(Math.random()*singleChorePermutations.length){
 				console.log("Enumerating new john duty permutation.");
 				//Add this permutation to the current schedule, try it until it works, then move on.
 			
@@ -306,8 +306,8 @@ function generateSchedules(){
 				}
 
 				//Next we'll go through all Campfire permutations:
-				for(var cfPermNumber = 0; cfPermNumber < singleChorePermutations.length; cfPermNumber++){
-					
+				for(var cfPermNumber = 0; cfPermNumber < singleChorePermutations.length; cfPermNumber=Math.floor(Math.random()*singleChorePermutations.length){
+					console.log("Seeking a new campfire permutation...");
 					cfWorks = false;
 					while(!cfWorks){
 						//Clean the slate:
@@ -329,7 +329,7 @@ function generateSchedules(){
 						}
 						if (noTribeHasJohnDutyAndCampfireOnTheSameDay(schedule)) {
 							cfWorks=true;
-							//console.log("Found a working campfire arrangement!  Took "+cfPermNumber+" tries.");
+							console.log("Found a working campfire arrangement!  Took "+cfPermNumber+" tries.");
 						}else{
 							cfPermNumber+=1;
 							if(cfPermNumber % 10000 === 0){
@@ -350,7 +350,7 @@ function generateSchedules(){
 						console.log("Good schedule found!: "+JSON.stringify(schedule)+" total is now: "+goodScheduleCount+" out of "+totalScheduleCount);
 						$('body').append("<h1>Schedule "+goodScheduleCount+" </h1>"+JSON.stringify(schedule)+"<br><br>");
 					}else{
-						if(totalScheduleCount % 100000 === 0){
+						if(totalScheduleCount % 1000000 === 0){
 							console.log("------Bad schedule "+goodScheduleCount+"/"+totalScheduleCount);
 						}
 					}
