@@ -59,7 +59,7 @@
 			tribes.forEach(function(tribe){
 				workshops.forEach(function(workshop){
 					if(!workshopChecklist[workshop][tribe]){
-							console.log("Rejecting schedule for tribes not having all workshops:\n"+JSON.stringify(testSchedule));
+							//console.log("Rejecting schedule for tribes not having all workshops:\n"+JSON.stringify(testSchedule));
 						return false;
 					}
 				});
@@ -71,7 +71,7 @@
 			testSchedule.forEach(function(day){
 				day.johnDuty.forEach(function(johnTribe){
 					if($.inArray(johnTribe, day.campFire)){
-							console.log("Rejecting schedule for tribe having John Duty and Campfire on the same day :\n"+JSON.stringify(testSchedule));
+							//console.log("Rejecting schedule for tribe having John Duty and Campfire on the same day :\n"+JSON.stringify(testSchedule));
 						return false;
 					}
 				});
@@ -79,13 +79,18 @@
 			return true;
 		}
 
+		var printCount = 0;
+
 		//For these purposes, Fun in the Forrest is Workshop Zero.
 		function noTribeHasKPAndFunInTheForestOnTheSameDay(testSchedule){
 			testSchedule.forEach(function(day){
 				day.kp.forEach(function(kpTribe){
 					day.workshops.forEach(function(workshopSession){
 						if($.inArray(kpTribe, workshopSession[0])){
-							console.log("Rejecting schedule for tribe having KP and Fun in the Forest on the Same Day:\n"+JSON.stringify(testSchedule));
+							if (printCount === 0) {
+								console.log("Rejecting schedule for tribe having KP and Fun in the Forest on the Same Day:\n"+JSON.stringify(testSchedule));
+								printCount = 1;
+							}
 							return false;
 						}
 					});
@@ -145,7 +150,8 @@
 		    }
 		    return permArr
 		};
-		var schedule=[{name:"",johnDuty:[], campFire:[],kp:[], workshops:[]},
+		var schedule=[
+		{name:"",johnDuty:[], campFire:[],kp:[], workshops:[]},
 		{name:"",johnDuty:[], campFire:[],kp:[], workshops:[]},
 		{name:"",johnDuty:[], campFire:[],kp:[], workshops:[]},
 		{name:"",johnDuty:[], campFire:[],kp:[], workshops:[]},
@@ -160,15 +166,15 @@
 
 			//First generate all chore permutations:
 			var singleChorePermutations = permute(tribes);
-
+			console.log("Single chore permutations created: "+singleChorePermutations.length);
 
 			//Go through all KP permutations:
 			singleChorePermutations.forEach(function(kpPermutation){
 				console.log("Sifting through new KP Permutation.");
 				var kpNumber = 0;
 				//Add this permutation to the current schedule;
-				var a = 0;
-				schedule.forEach(function(day){
+				for (var a=0; a<schedule.length; a++){
+					var day = schedule[a];
 					day.name = days[a];
 					//Sunday has no KP
 					if (days[a] !== "sunday") {
@@ -177,8 +183,7 @@
 						schedule[a].kp.push(kpPermutation[kpNumber]);
 						kpNumber+=1;
 					}
-					a+=1;
-				});
+				}
 				//Next we'll go through all John Duty permutations:
 				singleChorePermutations.forEach(function(jdPermutation){
 					console.log("Enumerating new john duty permutation.");
@@ -209,6 +214,58 @@
 							}
 						}
 
+						function addWorkshop(wPermutation){
+							var answer = {
+								1:[wPermutation[0], wPermutation[1]],
+								2:[wPermutation[2], wPermutation[3]],
+								3:[wPermutation[4], wPermutation[5]],
+								4:[wPermutation[6], wPermutation[7]],
+								5:[wPermutation[8], wPermutation[9]]
+							};
+							return answer;
+						}
+
+						//An alternate method of generating functional workshop schedules:
+						singleChorePermutations.forEach(function(workshopPermutation){
+							var currentWorkshop = addWorkshop(workshopPermutation);
+							function nextWorkshop(aWorkshop){
+								var bWorkshop = {
+									1:[aWorkshop[1][0], aWorkshop[2][1]],
+									2:[aWorkshop[2][0], aWorkshop[3][1]],
+									3:[aWorkshop[3][0], aWorkshop[4][1]],
+									4:[aWorkshop[4][0], aWorkshop[5][1]],
+									5:[aWorkshop[5][0], aWorkshop[1][1]]
+								};
+								return bWorkshop;
+							}
+							schedule.forEach(function(day){
+								day.workshops=[];
+								if (day.name === "monday" ||  day.name === "tuesday"||day.name === "monday"||day.name === "thursday") {
+									day.workshops.push(currentWorkshop);
+									currentWorkshop = nextWorkshop(currentWorkshop);
+								}
+								if (day.name === "wednesday") {
+									day.workshops.push(currentWorkshop);
+									currentWorkshop = nextWorkshop(currentWorkshop);
+									day.workshops.push(currentWorkshop);
+									currentWorkshop = nextWorkshop(currentWorkshop);
+								}
+							});
+							//All workshops have been added to the schedule.  Time to evaluate it, and add it to the list if it's good.
+							totalScheduleCount += 1;
+							if (checkCriteria(schedule)) {
+								schedules.push(schedule);
+								goodScheduleCount += 1;
+								console.log("Good schedule found!: "+JSON.stringify(schedule)+" total is now: "+goodScheduleCount+" out of "+totalScheduleCount);
+								$('body').append("<h1>Schedule "+goodScheduleCount+" </h1>"+JSON.stringify(schedule)+"<br><br>");
+							}else{
+								if(totalScheduleCount % 10000 === 0){
+									console.log("------Bad schedule "+goodScheduleCount+"/"+totalScheduleCount);
+								}
+							}
+						});
+
+/**Deprecated old version that was buggy and weird albeit more thoroughly brute force.
 						//Last we'll go through all workshop permutations.
 						singleChorePermutations.forEach(function(w1Permutation){
 							singleChorePermutations.forEach(function(w2Permutation){
@@ -216,15 +273,7 @@
 									singleChorePermutations.forEach(function(w4Permutation){
 										singleChorePermutations.forEach(function(w5Permutation){
 											var workshops = [w1Permutation,w2Permutation,w3Permutation,w4Permutation,w5Permutation];
-											function addWorkshop(wPermutation){
-												return {
-													1:[wPermutation[0], wPermutation[1]],
-													2:[wPermutation[2], wPermutation[3]],
-													3:[wPermutation[4], wPermutation[5]],
-													4:[wPermutation[6], wPermutation[7]],
-													5:[wPermutation[8], wPermutation[9]]
-												};
-											}
+											
 											var workshopNumber = 0;
 											schedule.forEach(function(day){
 												day[workshops]=[];
@@ -254,6 +303,7 @@
 								});
 							});
 						});
+**/
 					});
 				});
 
