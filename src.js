@@ -12,13 +12,33 @@ function readyFunction(){
 		var days = ["sunday", "monday","tuesday","wednesday","thursday","friday"];
 		var chores = ["KP", "johnDuty", "campfire"];
 
-		var criteria1 = function(schedule){
+		var twoTribesDoNotMeetTwice = function(schedule){
+			tribes.forEach(tribe){
+				tribes.forEach(tribe2){
+					var activitiesInCommon = 0;
+					schedule.forEach(day){
+						//Check for campfire in common,
+						if($.inArray(tribe, day.campFire && $.inArray(tribe2, day.campFire){
+							activitiesInCommon+=1;
+						}
+						//Check for workshops in common.
+						day.workshops.forEach(session){
+							session.forEach(workshop){
+								if($.inArray(tribe, workshop && $.inArray(tribe2, workshop){
+									activitiesInCommon+=1;
+								}
+							}
+						}	
+					}
+					if (activitiesInCommon > 1) {
+						return false;
+					}
+				}
+			}
 			return true;
 		}
-		var criteria2 = function(schedule){
-			return false;
-		}
-		var criteriaToMeet = [criteria1, criteria2];
+
+		var criteriaToMeet = [twoTribesDoNotMeetTwice];
 
 		function checkCriteria(schedule){
 			criteriaToMeet.forEach(criteria){
