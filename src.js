@@ -12,11 +12,11 @@ function readyFunction(){
 		var days = ["sunday", "monday","tuesday","wednesday","thursday","friday"];
 		var chores = ["KP", "johnDuty", "campfire"];
 
-		var twoTribesDoNotMeetTwice = function(schedule){
+		var twoTribesDoNotMeetTwice = function(testSchedule){
 			tribes.forEach(tribe){
 				tribes.forEach(tribe2){
 					var activitiesInCommon = 0;
-					schedule.forEach(day){
+					testSchedule.forEach(day){
 						//Check for campfire in common,
 						if($.inArray(tribe, day.campFire && $.inArray(tribe2, day.campFire){
 							activitiesInCommon+=1;
@@ -38,11 +38,41 @@ function readyFunction(){
 			return true;
 		}
 
-		var criteriaToMeet = [twoTribesDoNotMeetTwice];
+		var eachTribeTakesEachWorkshopOnce= function(testSchedule){
+			//Initializing a checklist for all the workshops.
+			var tribeChecklist = {};
+			tribes.forEach(tribe){
+				tribeChecklist[tribe]=false;
+			}
+			var workshopChecklist = {};
+			workshops.forEach(workshop){
+				workshopChecklist[workshop]=tribeChecklist;
+			}
+			//Check tribes off checklist
+			testSchedule.forEach(day){
+				day.workshops.forEach(session){
+					workshops.forEach(workshop){
+						workshopChecklist[workshop][session[workshop][0]]=true;
+						workshopChecklist[workshop][session[workshop][1]]=true;
+					}
+				}
+			}
+			//Check if any workshops are un-taken:
+			tribes.forEach(tribe){
+				workshops.forEach(workshop){
+					if(!workshopChecklist[workshop][tribe]){
+						return false;
+					}
+				}
+			}
+			return true;
+		}
 
-		function checkCriteria(schedule){
+		var criteriaToMeet = [eachTribeTakesEachWorkshopOnce, twoTribesDoNotMeetTwice];
+
+		function checkCriteria(testSchedule){
 			criteriaToMeet.forEach(criteria){
-				if (criteria(schedule)===false){
+				if (criteria(testSchedule)===false){
 					return false;
 				}
 				return true;
