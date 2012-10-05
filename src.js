@@ -20,10 +20,6 @@ var twoTribesDoNotMeetTwice = function(testSchedule){
 			if(tribe!==tribe2){
 				var activitiesInCommon = 0;
 				testSchedule.forEach(function(day){
-					//Check for campfire in common,
-					if($.inArray(tribe, day.campFire) && $.inArray(tribe2, day.campFire)){
-						activitiesInCommon+=1;
-					}
 					//Check for workshops in common.
 					day.workshops.forEach(function(workshop){
 						if($.inArray(tribe, workshop) && $.inArray(tribe2, workshop)){
@@ -94,15 +90,13 @@ var printCount = 0;
 function noTribeHasKPAndFunInTheForestOnTheSameDay(testSchedule){
 	testSchedule.forEach(function(day){
 		day.kp.forEach(function(kpTribe){
-			day.workshops.forEach(function(workshopSession){
-				if($.inArray(kpTribe, workshopSession[0])){
-					if (printCount === 0) {
-						//console.log("Rejecting schedule for tribe having KP and Fun in the Forest on the Same Day:\n"+JSON.stringify(testSchedule));
-						printCount = 1;
-					}
-					return false;
+			if($.inArray(kpTribe, day.workshops[1])){
+				if (printCount === 0) {
+					//console.log("Rejecting schedule for tribe having KP and Fun in the Forest on the Same Day:\n"+JSON.stringify(testSchedule));
+					printCount = 1;
 				}
-			});
+				return false;
+			}
 		});
 	});
 	return true;
@@ -207,11 +201,11 @@ function generateSchedules(){
 
 	function nextWorkshop(aWorkshop){
 		var bWorkshop = {
-			1:[aWorkshop[1][1], aWorkshop[2][1]],
-			2:[aWorkshop[1][0], aWorkshop[3][1]],
-			3:[aWorkshop[2][0], aWorkshop[4][1]],
-			4:[aWorkshop[3][0], aWorkshop[5][1]],
-			5:[aWorkshop[4][0], aWorkshop[5][0]]
+			1:[aWorkshop[1][0], aWorkshop[2][1]],
+			2:[aWorkshop[2][0], aWorkshop[3][1]],	
+			3:[aWorkshop[3][0], aWorkshop[4][1]],
+			4:[aWorkshop[4][0], aWorkshop[5][1]],
+			5:[aWorkshop[5][0], aWorkshop[1][1]]
 		};
 		return bWorkshop;
 	}
@@ -226,7 +220,7 @@ function generateSchedules(){
 		
 		schedule.forEach(function(day){
 			day.workshops=[];
-			if (day.name === "monday" ||  day.name === "tuesday"||day.name === "monday"||day.name === "thursday") {
+			if (day.name === "monday" || day.name === "tuesday" || day.name === "thursday") {
 				day.workshops.push(currentWorkshop);
 				currentWorkshop = nextWorkshop(currentWorkshop);
 			}
@@ -332,7 +326,7 @@ function generateSchedules(){
 					console.log("Good schedule found!: "+JSON.stringify(schedule)+" total is now: "+goodScheduleCount+" out of "+totalScheduleCount);
 					$('body').append("<h1>Schedule "+goodScheduleCount+" </h1>"+JSON.stringify(schedule)+"<br><br>");
 				}else{
-					if(totalScheduleCount % 1000000 === 0){
+					if(totalScheduleCount % 500000 === 0){
 						console.log("------Bad schedule "+goodScheduleCount+"/"+totalScheduleCount);
 					}
 				}	
