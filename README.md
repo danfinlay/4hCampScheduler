@@ -1,10 +1,10 @@
-#4H Camp Schedule Generator#
+***#4H Camp Schedule Generator#***
 
 ##A Node.js module for generating schedules for Alameda County's 4H Camp.##
 
 Requires Node.js installed, instructions can be found [here](http://nodejs.org/).
 
-##The program generates schedules and then evaluates them based on these criteria:##
+###The program generates schedules and then evaluates them based on these criteria:###
 
 1. No tribe has KP and Campfire on the same day.
 
