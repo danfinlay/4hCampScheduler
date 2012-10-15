@@ -1,4 +1,4 @@
-***#4H Camp Schedule Generator#***
+#4H Camp Schedule Generator#
 
 ##A Node.js module for generating schedules for Alameda County's 4H Camp.##
 
