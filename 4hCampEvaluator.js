@@ -68,7 +68,6 @@ var eachTribeTakesEachWorkshopOnce = function(testSchedule){
 function noTribeHasJohnDutyAndCampfireOnTheSameDay(testSchedule){
 
 	//console.log("Checking new schedule..");
-	var overlap = false;
 	for (var c = 0; c < testSchedule.length; c++){
 		var day = testSchedule[c];
 		//console.log("\tTesting "+day.name);
@@ -79,22 +78,10 @@ function noTribeHasJohnDutyAndCampfireOnTheSameDay(testSchedule){
 				//console.log("Comparing %s to %s", campFireTribe, johnTribe);
 				if (campFireTribe === johnTribe) {
 					//console.log("They are the same, marking overlap.");
-					overlap = true;
-					break;
-				};
-
-				//console.log("Checking if %s is in %s", johnTribe, JSON.stringify(day.campFire));
-				if (overlap){
-					//console.log("This is a bad schedule.");
 					return false;
-					break;
-					break;
-					break;
 				}
 			}
 		}
-		
-		
 	}
 	return true;
 }
@@ -139,9 +126,11 @@ module.exports.noTribeHasKPAndJohnDutyOnTheSameDay = noTribeHasKPAndJohnDutyOnTh
 function noTribeHasKPAndCampfireOnTheSameDay(testSchedule){
 	testSchedule.forEach(function(day){
 		day.kp.forEach(function(kpTribe){
-			if(inArray(kpTribe, day.campFire)){
-				return false;
-			}
+			day.campFire.forEach(function(campFireTribe){
+				if(campFireTribe === kpTribe){
+					return false;
+				}
+			});
 		});
 	});
 	return true;

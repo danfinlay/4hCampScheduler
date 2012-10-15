@@ -24,6 +24,8 @@ var workshops = [1,2,3,4,5];
 var days = ["sunday", "monday","tuesday","wednesday","thursday","friday"];
 var chores = ["KP", "johnDuty", "campfire"];
 
+module.exports.tribes = tribes;
+
 var schedule=[
 	{name:"sunday",johnDuty:[], campFire:[],kp:[], workshops:[]},
 	{name:"monday",johnDuty:[], campFire:[],kp:[], workshops:[]},
