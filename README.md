@@ -155,7 +155,9 @@ After this example, "schedules" would contain an array of "schedule" objects.  A
 		}
 	]
 
-The average day features 1 KP (kitchen party), 1 johnDuty, 1 campFire, and 5 workshops, each of which is a list of two tribes.
+The average day features 1 KP (kitchen party), 1 johnDuty, 1 campFire, and 5 workshops, each of which is a list of two tribes.  There are 10 tribes, numbered 0 through 9, and to finish this schedule one would need to complete the workshop schedule.
+
+My original version tried to ensure that each tribe would not take a workshop with another tribe twice, but if this was a possible request, it was going to take 82 years for my computer to find it, so we resorted to this method instead.
 
 Exceptions include no KP, John Duty, or Workshops on Sunday, no Camp Fire on Wednesday, two Workshops on Wednesday, and no workshops on Friday.
 
