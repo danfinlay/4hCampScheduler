@@ -6,12 +6,12 @@ Requires Node.js installed, instructions can be found [here](http://nodejs.org/)
 
 The basic usage of this library is demonstrated in main.js:
 
-	`var generator = require('./4hCampGenerator');
-	var schedules = generator.generate(10);`
+	var generator = require('./4hCampGenerator');
+	var schedules = generator.generate(10);
 
 After this example, "schedules" would contain an array of "schedule" objects.  A schedule is a javascript object that could be represented in JSON like this:
 
-	`[
+	[
 		{
 			"name": "sunday",
 			"johnDuty": [],
@@ -153,7 +153,7 @@ After this example, "schedules" would contain an array of "schedule" objects.  A
 			],
 			"workshops": []
 		}
-	]`
+	]
 
 The average day features 1 KP (kitchen party), 1 johnDuty, 1 campFire, and 5 workshops, each of which is a list of two tribes.
 
