@@ -7,7 +7,6 @@ Requires Node.js installed, instructions can be found [here](http://nodejs.org/)
 The basic usage of this library is demonstrated in main.js:
 
 <code>var generator = require('./4hCampGenerator');
-
 var schedules = generator.generate(10);</code>
 
 After this example, "schedules" would contain an array of "schedule" objects.  A schedule is a javascript object that could be represented in JSON like this:
