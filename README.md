@@ -34,13 +34,13 @@ After this example, "schedules" would contain an array of ten "schedule" objects
 			],
 			"kp": [
 				8,
-				9
+				7
 			],
 			"workshops": [
 				{
 					"1": [
-						7,
-						4
+						5,
+						2
 					],
 					"2": [],
 					"3": [],
@@ -52,22 +52,22 @@ After this example, "schedules" would contain an array of ten "schedule" objects
 		{
 			"name": "tuesday",
 			"johnDuty": [
-				3,
-				4
+				2,
+				3
 			],
 			"campFire": [
 				6,
-				8
+				9
 			],
 			"kp": [
-				1,
-				2
+				0,
+				4
 			],
 			"workshops": [
 				{
 					"1": [
-						6,
-						0
+						1,
+						3
 					],
 					"2": [],
 					"3": [],
@@ -79,19 +79,19 @@ After this example, "schedules" would contain an array of ten "schedule" objects
 		{
 			"name": "wednesday",
 			"johnDuty": [
-				2,
-				5
+				4,
+				6
 			],
 			"campFire": [],
 			"kp": [
-				7,
-				4
+				5,
+				2
 			],
 			"workshops": [
 				{
 					"1": [
-						3,
-						5
+						6,
+						9
 					],
 					"2": [],
 					"3": [],
@@ -101,7 +101,7 @@ After this example, "schedules" would contain an array of ten "schedule" objects
 				{
 					"1": [
 						8,
-						9
+						7
 					],
 					"2": [],
 					"3": [],
@@ -113,22 +113,22 @@ After this example, "schedules" would contain an array of ten "schedule" objects
 		{
 			"name": "thursday",
 			"johnDuty": [
-				7,
-				8
+				9,
+				7
 			],
 			"campFire": [
-				3,
-				9
+				0,
+				8
 			],
 			"kp": [
-				6,
-				0
+				1,
+				3
 			],
 			"workshops": [
 				{
 					"1": [
-						1,
-						2
+						0,
+						4
 					],
 					"2": [],
 					"3": [],
@@ -140,16 +140,16 @@ After this example, "schedules" would contain an array of ten "schedule" objects
 		{
 			"name": "friday",
 			"johnDuty": [
-				6,
-				9
+				8,
+				5
 			],
 			"campFire": [
-				0,
+				3,
 				7
 			],
 			"kp": [
-				3,
-				5
+				6,
+				9
 			],
 			"workshops": []
 		}
