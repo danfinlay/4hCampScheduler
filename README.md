@@ -9,7 +9,7 @@ The basic usage of this library is demonstrated in main.js:
 	var generator = require('./4hCampGenerator');
 	var schedules = generator.generate(10);
 
-After this example, "schedules" would contain an array of "schedule" objects.  A schedule is a javascript object that could be represented in JSON like this:
+After this example, "schedules" would contain an array of ten "schedule" objects.  A schedule is a javascript object that could be represented in JSON like this:
 
 	[
 		{
