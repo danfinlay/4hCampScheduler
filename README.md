@@ -17,9 +17,16 @@ Requires Node.js installed, instructions can be found [here](http://nodejs.org/)
 The basic usage of this library is demonstrated in main.js:
 
 	var generator = require('./4hCampGenerator');
-	var schedules = generator.generate(10);
 
-After this example, "schedules" would contain an array of ten "schedule" objects (as per the parameter).  A schedule is a javascript object that could be represented in JSON like this:
+	var schedules = [];
+	generator.generate(10, function(goodSchedule){
+		console.log("Good schedule found!:\n"+JSON.stringify(goodSchedule));
+		schedules.push(goodSchedule);
+	});
+
+After this example, "schedules" would contain an array of ten "schedule" objects (as per the parameter).  The `generate` function both returns a full array of schedules, and takes a callback parameter for asynchronously returning schedules as they are generated.
+
+A schedule is a javascript object that could be represented in JSON like this:
 
 	[
 		{

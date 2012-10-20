@@ -73,7 +73,7 @@ var singleChorePermutations = permute(tribes);
 function findWorkingWorkshopsFor(aSchedule){
 }
 
-function generate(desiredScheduleCount){
+function generate(desiredScheduleCount, callback){
 	var goodScheduleCount = 0;
 	var goodSchedules = [];
 	console.log("Generating schedules for template: "+JSON.stringify(schedule));
@@ -146,6 +146,7 @@ function generate(desiredScheduleCount){
 						console.log("\nSchedule %s", goodScheduleCount+1);
 						console.log(JSON.stringify(schedule, null, "\t"));
 						goodSchedules.push(schedule);
+						callback(schedule);
 						goodScheduleCount += 1;
 						break;
 						break;
