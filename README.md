@@ -26,7 +26,9 @@ The basic usage of this library is demonstrated in main.js:
 
 After this example, "schedules" would contain an array of ten "schedule" objects (as per the parameter).  The `generate` function both returns a full array of schedules, and takes a callback parameter for asynchronously returning schedules as they are generated.
 
-A schedule is a javascript object that could be represented in JSON like this:
+
+##Sample Schedule:
+The program generates a fresh schedule each time it's run, based on an amount of random number generation.  A sample schedule could be:
 
 	[
 		{
