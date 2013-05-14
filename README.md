@@ -2,9 +2,8 @@
 
 ##A Node.js module for generating schedules for Alameda County's 4H Camp.##
 
-Requires Node.js installed, instructions can be found [here](http://nodejs.org/).
-
-###The program generates schedules and then evaluates them based on these criteria:###
+This program generates random camp schedules based on the following criteria.  A sample generated schedule can be found [here](https://github.com/flyswatter/4hCampScheduler/blob/master/README.md#sample-schedule).
+###Generates Schedules Based on These Criteria:
 
 1. No tribe has KP and Campfire on the same day.
 
